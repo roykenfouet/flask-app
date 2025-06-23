@@ -23,7 +23,7 @@ jobs:
     - name: 🐳 Scanner l’image Docker
       run: |
         docker build -t flask-1:latest .
-        trivy image --exit-code 0 --severity HIGH,CRITICAL flask-wvg:latest
+        trivy image --exit-code 0 --severity HIGH,CRITICAL flask-1:latest
 
     - name: 📄 Scanner les fichiers Kubernetes
       run: |
