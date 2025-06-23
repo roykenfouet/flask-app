@@ -1,0 +1,31 @@
+name: 🔍 Analyse de sécurité avec Trivy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  scan:
+    name: 🔐 Scan Docker & K8s manifests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Cloner le dépôt
+      uses: actions/checkout@v3
+
+    - name: 🔧 Installer Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        version: latest
+
+    - name: 🐳 Scanner l’image Docker
+      run: |
+        docker build -t flask-1:latest .
+        trivy image --exit-code 0 --severity HIGH,CRITICAL flask-wvg:latest
+
+    - name: 📄 Scanner les fichiers Kubernetes
+      run: |
+        trivy config ./manifests --exit-code 0 --severity HIGH,CRITICAL
+
