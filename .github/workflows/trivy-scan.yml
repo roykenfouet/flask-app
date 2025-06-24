@@ -19,7 +19,7 @@ jobs:
     - name: 🔧 Installer Trivy (via setup-trivy)
       uses: aquasecurity/setup-trivy@main
       with:
-        version: 0.63.0
+        version: latest
 
     - name: Build Docker image
       run: docker build -t flask-1:latest .
