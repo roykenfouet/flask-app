@@ -23,11 +23,6 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t flask-1:latest .
-
-    #- name: 🐳 Scanner l’image Docker
-    #  run: |
-    #    docker build -t flask-1:latest .
-    #    trivy image --exit-code 0 --severity HIGH,CRITICAL flask-1:latest
     
     - name: 🔐 Scanner l’image Docker avec Trivy
       uses: aquasecurity/trivy-action@master
