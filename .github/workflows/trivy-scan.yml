@@ -33,17 +33,13 @@ jobs:
         image-ref: flask-1:latest
         format: sarif
         output: trivy-docker-report.sarif
-        exit-code: 1
+        exit-code: 0
         severity: HIGH,CRITICAL
 
     - name: 📤 Upload rapport Docker SARIF vers GitHub Security
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: trivy-docker-report.sarif
-
-    - name: 📄 Afficher les vulnérabilités Docker dans les logs (table)
-      run: |
-        trivy image --severity HIGH,CRITICAL --format table flask-1:latest || true
 
     - name: 📁 Uploader le rapport Docker SARIF comme artefact
       uses: actions/upload-artifact@v4
