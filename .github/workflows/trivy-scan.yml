@@ -37,7 +37,3 @@ jobs:
     - name: 📄 Scanner les fichiers Kubernetes
       run: |
         trivy config ./manifests --exit-code 0 --severity HIGH,CRITICAL
-        
-    
-	
-
