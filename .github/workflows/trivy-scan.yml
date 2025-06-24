@@ -31,10 +31,10 @@ jobs:
         image-ref: flask-1:latest
         format: sarif
         output: trivy-docker-report.sarif
-        exit-code: 0
+        exit-code: 1
         severity: HIGH,CRITICAL
 
     - name: 📄 Scanner les fichiers Kubernetes
       run: |
-        trivy config ./manifests --exit-code 0 --severity HIGH,CRITICAL
+        trivy config ./manifests --exit-code 1 --severity HIGH,CRITICAL
         
