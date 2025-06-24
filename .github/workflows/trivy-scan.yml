@@ -1,3 +1,4 @@
+
 name: 🔍 Analyse de sécurité avec Trivy
 
 on:
@@ -10,9 +11,6 @@ jobs:
   scan:
     name: 🔐 Scan Docker & K8s manifests
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write  # ✅ nécessaire pour upload-sarif
 
     steps:
     - name: 📥 Cloner le dépôt
@@ -23,10 +21,10 @@ jobs:
       with:
         version: latest
 
-    - name: 🛠️ Build Docker image
+    - name: Build Docker image
       run: docker build -t flask-1:latest .
-
-    - name: 🔐 Scanner l’image Docker avec Trivy (SARIF)
+    
+    - name: 🔐 Scanner l’image Docker avec Trivy
       uses: aquasecurity/trivy-action@master
       with:
         scan-type: image
@@ -36,29 +34,6 @@ jobs:
         exit-code: 0
         severity: HIGH,CRITICAL
 
-    - name: 📤 Upload rapport Docker SARIF vers GitHub Security
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: trivy-docker-report.sarif
-
-    - name: 📁 Uploader le rapport Docker SARIF comme artefact
-      uses: actions/upload-artifact@v4
-      with:
-        name: trivy-docker-sarif
-        path: trivy-docker-report.sarif
-
-    - name: 📄 Scanner les fichiers Kubernetes (SARIF)
+    - name: 📄 Scanner les fichiers Kubernetes
       run: |
-        trivy config --format sarif --output trivy-k8s-report.sarif --severity HIGH,CRITICAL ./manifests || true
-
-    - name: 📤 Upload rapport K8s SARIF vers GitHub Security
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: trivy-k8s-report.sarif
-
-    - name: 📁 Uploader le rapport K8s SARIF comme artefact
-      uses: actions/upload-artifact@v4
-      with:
-        name: trivy-k8s-sarif
-        path: trivy-k8s-report.sarif
-
+        trivy config ./manifests --exit-code 0 --severity HIGH,CRITICAL
