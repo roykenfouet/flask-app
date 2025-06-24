@@ -34,6 +34,10 @@ jobs:
         exit-code: 1
         severity: HIGH,CRITICAL
 
+    - name: 📄 Afficher les vulnérabilités dans les logs (format table)
+      run: |
+        trivy image --severity HIGH,CRITICAL --format table flask-1:latest || true
+
     - name: 📄 Scanner les fichiers Kubernetes
       run: |
         trivy config ./manifests --exit-code 1 --severity HIGH,CRITICAL
