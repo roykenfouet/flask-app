@@ -40,5 +40,6 @@ jobs:
         
     - name: 📋 Scanner les manifests avec Polaris
       run: |
-        docker run --rm -v ${{ github.workspace }}/manifests:/manifests quay.io/fairwinds/polaris:4.0 \
-          audit --audit-path /manifests --set-exit-code-on-danger --format score
+    docker run --rm -v ${{ github.workspace }}/manifests:/manifests ghcr.io/fairwindsops/polaris:4.0 \
+      polaris audit --audit-path /manifests --format score --set-exit-code-on-danger
+
