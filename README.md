@@ -26,6 +26,22 @@ kubectl rollout restart deployment flask-app
 
 minikube service flask-service
 
+### RBAC 
+
+kubectl auth can-i delete pods --as=system:serviceaccount:default:flask-app-sa
+
+### NetworkPolicy
+
+positif
+
+kubectl run frontend --rm -it --image=busybox --labels="role=frontend" -- sh
+# Dans le shell :
+wget -O- http://flask-service1
+
+Negatif
+
+kubectl run attacker --rm -it --image=busybox -- sh
+# wget -O- http://flask-service1
 
 
 
